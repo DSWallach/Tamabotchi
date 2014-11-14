@@ -1,0 +1,1 @@
+The Tamabotchi is a BotBall/KISS-based robot which simulates the "Tamagotchi" toy for children, but as an embodied robot. Our goal is to make a robot which is responsive to different stimuli and can recognize them as good or bad, and accordingly learns whether the human it is interacting with is good or bad.
