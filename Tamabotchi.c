@@ -205,31 +205,12 @@ void SeekFood(){
 void Eat(){
 	printf("Eat");
 	track_update();
-	/* if (track_x(FOOD_CHANNEL, FOOD_INDEX) < 70){
-	motor(0, 0);
-	motor(3, 50);
-	sleep(0.1);
-	ApproachByVision(FOOD_CHANNEL, FOOD_INDEX);
-	sleep(0.1);
-	}
-	else if (track_x(FOOD_CHANNEL, FOOD_INDEX) > 90){
-	motor(0, 50);
-	motor(3, 0);
-	sleep(0.1);
-	ApproachByVision(FOOD_CHANNEL, FOOD_INDEX);
-	sleep(0.1);
-	} */
-	//else {
-	
-	track_update();
 	int initial_y = track_y(FOOD_CHANNEL, FOOD_INDEX);
 	int new_y;
 	ApproachByVision(FOOD_CHANNEL, FOOD_INDEX, 50);
 	sleep(0.1);
 	do {
 		track_update();
-		//motor(0, 60);
-		//motor(3, 60);
 		ApproachByVision(FOOD_CHANNEL, FOOD_INDEX, 50);
 		new_y = track_y(FOOD_CHANNEL, FOOD_INDEX);    
 	} while (FoodSeen());
@@ -255,36 +236,13 @@ void Eat(){
 
 void Feed() {
 	printf("Feeding");
-	track_update(); /*
-	if (track_x(FOOD_CHANNEL, FOOD_INDEX) < 60){
-	motor(0, 0);
-	motor(3, 50);
-	sleep(0.1);
-	}
-	else if (track_x(FOOD_CHANNEL, FOOD_INDEX) > 100){
-	motor(0, 50);
-	motor(3, 0);
-	sleep(0.1);
-	}
-	else {
-	track_update;
-	int initial_y = track_y(FOOD_CHANNEL, FOOD_INDEX);
-	int new_y;
-	do {
-	track_update();
-	motor(0, 60);
-	motor(3, 60);
-	new_y = track_y(FOOD_CHANNEL, FOOD_INDEX);    
-	} while(FoodSeen()); */
-	track_update();
+	track_update(); 
 	int initial_y = track_y(FOOD_CHANNEL, FOOD_INDEX);
 	int new_y;
 	ApproachByVision(FOOD_CHANNEL, FOOD_INDEX, 50);
 	sleep(0.1);
 	do {
 		track_update();
-		//motor(0, 60);
-		//motor(3, 60);
 		ApproachByVision(FOOD_CHANNEL, FOOD_INDEX, 50);
 		new_y = track_y(FOOD_CHANNEL, FOOD_INDEX);    
 	} while (FoodSeen());
@@ -317,8 +275,8 @@ void Wander() {
 	//pick random direction
 	int SPEED_RIGHT = 40 + rand() % 40;
 	int SPEED_LEFT = 40 + rand() % 40;
-	motor(0, SPEED_LEFT);//rand() % SPEED_THRESHOLD);
-	motor(3, SPEED_RIGHT);//rand() % SPEED_THRESHOLD);
+	motor(0, SPEED_LEFT);
+	motor(3, SPEED_RIGHT);
 	printf("Wander");
 }
 
@@ -383,7 +341,6 @@ int ObstacleDetected() {
 	rightObstacle = (right_ir > avoidThreshold);
 	
 	return rightObstacle || leftObstacle;
-	//sleep(0.1);
 }
 
 //To select from the four non-human interaction behaviors
@@ -447,11 +404,6 @@ int HumanInteract() {
 			HumanBehaviorDuration = 3;
 			HumanBehaviorStart = seconds();
 		}
-		/*
-		else if (food()) {
-		AffectionCount++
-		}
-		*/
 		else if (TimeCheck(HumanBehaviorStart, HumanBehaviorDuration)){
 			//updates the behavior based on AffectionCount
 			AffectionCounter();
@@ -460,14 +412,6 @@ int HumanInteract() {
 		if (FoodSeen() && (HungerLevel != NOT_HUNGRY)) {
 			InteractionBehavior = FEED;
 		}
-		/*
-		if (HungerCount < InitialHunger) {
-		// or
-		//else if (FoodSeen()){
-		AffectionChange(10);
-		printf("\nHUNGER CHANGED AFFECTION");
-		//InteractionBehavior = LOVE;
-		}*/
 		
 		HumanExecute(InteractionBehavior);
 		sleep(0.1);
@@ -566,8 +510,8 @@ void HumanDislike() {
 	//pick random direction
 	int SPEED_RIGHT = 40 + rand() % 40;
 	int SPEED_LEFT = 40 + rand() % 40;
-	motor(0, SPEED_LEFT);//rand() % SPEED_THRESHOLD);
-	motor(3, SPEED_RIGHT);//rand() % SPEED_THRESHOLD);
+	motor(0, SPEED_LEFT);
+	motor(3, SPEED_RIGHT);
 	printf("HumanDislike");
 }
 
@@ -604,29 +548,16 @@ void HumanLike() {
 
 void HumanLove() {
 	/*
-	motor schema? 40 + distance outside of center for the different motors
+	motor schema - 40 + distance outside of center for the different motors
+	if sufficiently close to the human, spin with delight
 	*/
 	if (LovedHumanDetected()) {
-	Spin();}
+		Spin();
+	}
 	else {
 		ApproachByVision(HUMAN_CHANNEL, HUMAN_INDEX, 40);
 	}
-	
-	
-	/*
-	else if (track_x(HUMAN_INDEX,HUMAN_CHANNEL) > 110) {
-	motor(0, 70);
-	motor(3, 50);
-	}
-	
-	else if (track_x(HUMAN_INDEX,HUMAN_CHANNEL) > 50 && track_x(HUMAN_INDEX,HUMAN_CHANNEL) < 110) {
-	motor(0, 70);
-	motor(3, 70);
-	}
-	else {
-	motor(0, 50);
-	motor(3, 70);
-	} */
+
 	printf("HumanLove");
 }
 
@@ -690,25 +621,8 @@ int TimeCheck(double InitialTime, double Duration) {
 //For use in HumanLike and HumanLove behaviors, approaches and slows to a stop near target
 void ApproachByVision(int channel, int index, int baseline) {
 	track_update();
-	//int baseline = 40;
 	int MIDPOINT = 80;
 	int x = track_x(channel, index);
-	/*int addToLeft;
-	int addToRight;
-	if ((int)(.5 * (80 - x))) < 0) {
-	addToRight = 0}
-	else{
-	addToRight = (int)(.5 * (80 - x)))
-	}
-	if ((int)(.5 * (80 - x))) < 0) {
-	addToLeft = 0}
-	else{
-	addToLeft = (int)(.5 * (x - 80)))
-	}    
-	
-	motor(0, baseline + (int)(.5 * (x - 80)));    
-	motor(3, baseline + ;    
-	*/
 	if (x > MIDPOINT) {
 		motor(0, baseline + (int)(.5 * (x - 80)));
 		motor(3, baseline);
