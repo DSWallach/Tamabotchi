@@ -82,7 +82,6 @@ const int NEUTRAL = 6;
 const int FEED = 7;
 const int WHEREISHUMAN = 8;
 const int NEW_HUMAN = 9;
-//const int SEEKFOOD = 8;
 
 //human functions
 int AffectionCounter();
